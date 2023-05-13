@@ -10,8 +10,8 @@ namespace MoonRoverAr.Scripts.Vehicle
         private GameInput _gameInput;
 
         [Header("Info")]
-        [SerializeField] private Vector2 input;
-        [SerializeField] private float accelerationPedal;
+        [SerializeField] private Vector2 _input;
+        [SerializeField] private float _acceleration;
         private void Awake()
         {
             _gameInput = new GameInput();
@@ -20,10 +20,12 @@ namespace MoonRoverAr.Scripts.Vehicle
 
         private void FixedUpdate()
         {
-            var inputVector = _gameInput.Gameplay.Movement.ReadValue<Vector2>();
-            input = inputVector;
-            _vehiclePhysics.Accelerate(input.y);
-            _vehiclePhysics.Steer(input.x);
+            _input = _gameInput.Gameplay.Movement.ReadValue<Vector2>();
+
+            _acceleration = _input.y >= 0 ? _input.magnitude : -_input.magnitude;
+
+            _vehiclePhysics.Accelerate(_acceleration);
+            _vehiclePhysics.Steer(_input.x);
 
         }
     }

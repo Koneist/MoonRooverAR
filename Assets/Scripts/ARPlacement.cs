@@ -12,6 +12,7 @@ namespace MoonRooverAR
         [SerializeField] private ARRaycastManager _raycastManager;
         [SerializeField] private GameObject _placementIndicator;
         [SerializeField] private GameObject _objectToSpawn;
+        [SerializeField] private float _spawnOffset = 5f; 
         
         private GameInput _gameInput;
         private GameObject _spawnedObject;
@@ -24,10 +25,6 @@ namespace MoonRooverAR
         {
             _gameInput = new GameInput();
             _objectToSpawn.SetActive(false);
-        }
-        private void Start()
-        {
-
         }
 
         private void OnEnable()
@@ -42,6 +39,22 @@ namespace MoonRooverAR
             _gameInput.Disable();
         }
 
+        private void OnApplicationPause(bool pause)
+        {
+            if (!pause)
+                return;
+
+            ResetPlacement();
+        }
+
+        private void ResetPlacement()
+        {
+            _placementIndicator.SetActive(true);
+            _isObjectPlased = false;
+            _objectToSpawn.SetActive(false);
+            _gameInput.Enable();
+        }
+
         private void OnTouchPerformed(CallbackContext context)
         {
             if (!_isPlacementPoseIsValid)
@@ -52,7 +65,7 @@ namespace MoonRooverAR
 
         private void Update()
         {
-            if (_isObjectPlased)
+            if (_isObjectPlased || SaveManager.Instance.State.FirstSave)
                 return;
 
             UpdatePlacementPose();
@@ -82,9 +95,15 @@ namespace MoonRooverAR
 
         private void PlaceObject()
         {
-            _objectToSpawn.transform.SetPositionAndRotation(_placementPose.position, _placementPose.rotation);
+            var localpos = _placementPose.position;
+            var localposOffset = localpos;
+            localposOffset.Normalize();
+            localposOffset.x = 0;
+            localposOffset *= _spawnOffset;
+            localpos += localposOffset;
+            _objectToSpawn.transform.SetPositionAndRotation(localpos, _placementIndicator.transform.rotation);
             _objectToSpawn.SetActive(true);
-            _placementIndicator.SetActive(false);
+            //_placementIndicator.SetActive(false);
             _isObjectPlased = true;
             _gameInput.Disable();
         }

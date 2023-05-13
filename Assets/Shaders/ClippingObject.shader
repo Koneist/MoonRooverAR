@@ -2,6 +2,7 @@
 	//show values to edit in inspector
 	Properties{		
 		_MainTex ("Texture", 2D) = "white" {}
+		_Color("Color", Color) = (1, 1, 1, 1) 
 		_Smoothness ("Smoothness", Range(0, 1)) = 0
 		_Emission ("Emission", color) = (0, 0, 0)
 		_TurnOnClip ("Clipping", Range(0, 1)) = 1
@@ -35,6 +36,7 @@
 		int _TurnOnClip;
 
 		float4 _CutoffColor;
+		float4 _Color;
 
 		//input struct which is automatically filled by unity
 		struct Input {
@@ -60,9 +62,9 @@
 			
 			//normal color stuff
 			fixed4 col = tex2D(_MainTex, i.uv_MainTex);			
-			o.Albedo = col.rgb * facing;			
+			o.Albedo = col.rgb * facing * _Color;			
 			o.Smoothness = _Smoothness * facing;
-			o.Emission = lerp(_CutoffColor, _Emission, facing);
+			o.Emission = col.rgb * facing * _Color;
 		}
 		ENDCG
 	}

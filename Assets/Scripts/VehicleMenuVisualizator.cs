@@ -11,7 +11,8 @@ namespace MoonRooverAR
         [SerializeField] private Image _image;
         [SerializeField] private Text _description;
 
-        private void Start()
+
+        private void OnEnable()
         {
             Hide();
         }

@@ -21,6 +21,7 @@ namespace MoonRooverAR
         public void ChangeVehicle(GameObject vehicle)
         {
             var pos = _vehicle.transform.position;
+            var localpos = _vehicle.transform.localPosition;
             var rotation = _vehicle.transform.rotation;
             var parent = _vehicle.transform.parent;
             var size = _vehicle.transform.localScale;
@@ -31,7 +32,7 @@ namespace MoonRooverAR
 
             _vehicle = Instantiate(vehicle, pos, rotation, parent);
             _vehicle.transform.localScale = size;
-            Attach(_vehicle, pos);
+            Attach(_vehicle, localpos);
             
 
         }

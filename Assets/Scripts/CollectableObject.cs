@@ -24,8 +24,8 @@ namespace MoonRooverAR
 
         private void ShowInfoPanel()
         {
-            _infoPanel.Show(gameObject);
             _collection.Unlock(_collectionId);
+            _infoPanel.Show(_collectionId);
         }
     }
 

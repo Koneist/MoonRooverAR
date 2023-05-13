@@ -11,23 +11,39 @@ namespace MoonRooverAR
         [SerializeField] private Image _image;
         [SerializeField] private Text _description;
 
+        private Color32 _lockedColor = new Color32(10, 10, 10,255);
+        private Color32 _unlockedColor = new Color32(250, 255, 255, 255);
+
         private void Start()
         {
-            Hide();
+
         }
 
-        public void Hide()
+        public void Clear()
         {
             _name.text = "";
             _description.text = "";
             _image.sprite = null;
         }
 
-        public void Show(string name, string description, Sprite image)
+        public void Show(string name, string description, Sprite image, bool IsLocked)
         {
+            
             _name.text = name;
-            _description.text = description;
             _image.sprite = image;
+            if (IsLocked) 
+            {
+                _image.color = _lockedColor;
+                _description.text = "Этот предмет еще не разблокирован";
+                
+                gameObject.SetActive(true);
+                return;
+            }
+
+            _image.color = _unlockedColor;
+            _description.text = description;
+
+            gameObject.SetActive(true);
         }
     }
 }

@@ -741,7 +741,7 @@ MonoBehaviour:
   - {fileID: 7516549267663851538}
   - {fileID: 348618381791519178}
   _maxSteerAngle: 30
-  motorForce: 10
+  motorForce: 100
 --- !u!1 &6447743303606558434
 GameObject:
   m_ObjectHideFlags: 0

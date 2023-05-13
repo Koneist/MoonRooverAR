@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 namespace MoonRoverAr.Scripts.Vehicle
 {
@@ -14,18 +15,19 @@ namespace MoonRoverAr.Scripts.Vehicle
 		[SerializeField] private float motorForce = 50;
 
 
-		public void Steer(float input)
+        public void Steer(float input)
 		{
-			
 			_wheellCollider[0].steerAngle = _maxSteerAngle * input;
 			_wheellCollider[1].steerAngle = _maxSteerAngle * input;
 		}
 
 		public void Accelerate(float input)
 		{
-			for (int i = 0; i < 2; ++i)
+			var wheelForse = _wheellCollider.Length != 0 ? motorForce / _wheellCollider.Length : 0;
+
+            for (int i = 0; i < _wheellCollider.Length; ++i)
 			{
-				_wheellCollider[i].motorTorque = motorForce * input;
+				_wheellCollider[i].motorTorque = wheelForse * input;
 			}
 		}
 

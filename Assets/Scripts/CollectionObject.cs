@@ -9,13 +9,20 @@ namespace MoonRooverAR
     {
         [SerializeField] private Button _button;
         [SerializeField] private ObjectVisualizator _visualizator;
-        
-        [SerializeField] private Sprite _objectImage;
-        [SerializeField] private Sprite _lockedImage;
-        [SerializeField] private Sprite _unlockedImage;
+        [SerializeField] private Image _previewImage;
+
+        [SerializeField] private Sprite _objectSprite;
         [SerializeField] private string _name;
         [SerializeField] private string _description;
         [SerializeField] private bool _locked;
+
+        private Color32 _lockedColor = new Color32(10, 10, 10, 255);
+        private Color32 _unlockedColor = new Color32(250, 255, 255, 255);
+
+        public Sprite ObjectSprite { get => _objectSprite; }
+        public string Name { get => _name; }
+        public string Description { get => _description; }
+
         public bool Locked
         {
             get 
@@ -29,24 +36,21 @@ namespace MoonRooverAR
 
                 _locked = value;
                 if (_locked)
-                    _objectImage = _lockedImage;
+                    _previewImage.color = _lockedColor;
                 else
-                    _objectImage = _unlockedImage;
+                    _previewImage.color = _unlockedColor;
             }
         }
-        private void ShowObject()
+        public void ShowObject()
         {
-            var description = _description;
-            if (Locked)
-                description = "";
-            _visualizator.Show(_name, _description, _objectImage);
+            _visualizator.Show(_name, _description, _objectSprite, Locked);
         }
 
         public void Unlock() => Locked = false;
 
         private void Start()
         {
-            //Locked = true;
+            _previewImage.sprite = _objectSprite;
         }
 
         private void OnEnable()

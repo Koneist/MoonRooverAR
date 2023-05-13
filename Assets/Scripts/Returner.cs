@@ -13,6 +13,7 @@ namespace MoonRooverAR
         public void Return()
         {
             _attacher.Vehicle.transform.localPosition = _returnPosition;
+            _attacher.Vehicle.transform.rotation = Quaternion.identity;
             //_attacher.Vehicle.GetComponent<Rigidbody>().position = _returnPosition;
             _traker.ChangePosition(_returnPosition);
         }

@@ -27,7 +27,7 @@ namespace MoonRooverAR
 
         private void CollectSoil()
         {
-            _infoPanel.Show(gameObject);
+            _infoPanel.Show(_collectionId);
             _collection.Unlock(_collectionId);
         }
 
